@@ -1,17 +1,3 @@
-
-##
-### 1. Generate working directories 
-##
-
-the.data.path <- c("")
-the.plot.path <- c("")
-
-##
-### 2. Source files step by step
-##
-
-setwd(the.data.path)
-
 ## Recommend to open and run each script separately (to see what is happening)
 
 source("step-0-basic-functions.R")

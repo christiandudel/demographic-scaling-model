@@ -28,15 +28,18 @@ ungrouped_up95_ifr_by_single_age_china_sp <- to_ungroup(to_ungroup=ifr_by_age_ch
 
 mapped_mode_ifr_thanatAge <- map_fr_betw_ref_and_coi_thanatAge(deaths=deaths,
 						lt_1950_2020=lt_1950_2020,
-						ungrouped_cfr_by_single_age_china_sp=ungrouped_mode_ifr_by_single_age_china_sp)
+						ungrouped_cfr_by_single_age_sp=ungrouped_mode_ifr_by_single_age_china_sp,
+						reference="China")
 
 mapped_low95_ifr_thanatAge <- map_fr_betw_ref_and_coi_thanatAge(deaths=deaths,
 						lt_1950_2020=lt_1950_2020,
-						ungrouped_cfr_by_single_age_china_sp=ungrouped_low95_ifr_by_single_age_china_sp)
+						ungrouped_cfr_by_single_age_sp=ungrouped_low95_ifr_by_single_age_china_sp,
+						reference="China")
 
 mapped_up95_ifr_thanatAge <- map_fr_betw_ref_and_coi_thanatAge(deaths=deaths,
 						lt_1950_2020=lt_1950_2020,
-						ungrouped_cfr_by_single_age_china_sp=ungrouped_up95_ifr_by_single_age_china_sp)
+						ungrouped_cfr_by_single_age_sp=ungrouped_up95_ifr_by_single_age_china_sp,
+						reference="China")
 
 #
 ## Adjust for NAs (that may be there in rare cases when values cannot be mapped) 
@@ -107,8 +110,7 @@ mapped_up95_ifr_thanatAge
 
 ## Get global age distribution of deaths from previous step 1-b
 
-setwd(the.data.path)
-source("global_age_dist_deaths.R")
+source("Data/global_age_dist_deaths.R")
 
 ##
 
@@ -175,96 +177,84 @@ output_up95_ifr_china_map_thanatAge_globalPattern_ageSpecificDeaths <- get_outpu
 ### modal ifr
 ##
 
-setwd(the.plot.path)
-
 require(wesanderson)
 pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
 
-dev.off()
-
-pdf(file="top-10-lambda-mode-IFR-thanatAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
-
-par(fig = c(0,1,0,1), las=1, mai=c(0.6,1.0,1.4,0.4))
-
- 	plot(x=-100,y=-100,xlim=c(0,length(5:ncol(cfr))),ylim=c(0,0.02),xlab="",ylab="",cex.main=0.9,
-		main="Fraction of people probably infected with COVID-19\n China's modal IFR mapped via thanatological age\n January 22 - April 17, 2020",axes=FALSE)
-
-	for(pop in 1:length(country_labels)){
-		points(x=1:length(5:ncol(cfr)),y=output_mode_ifr_china_map_thanatAge_globalPattern_ageSpecificDeaths$total_lambda[pop,],col=pal[pop],lwd=3)
-		lines(x=1:length(5:ncol(cfr)),y=output_mode_ifr_china_map_thanatAge_globalPattern_ageSpecificDeaths$total_lambda[pop,],col=pal[pop],lwd=3)
-	}
-
-	axis(side=1,at=seq(1,length(5:ncol(cfr)),7),labels=FALSE,lwd=1,pos=0)
-	axis(side=1,at=c(seq(1,length(5:ncol(cfr)),7),length(5:ncol(cfr))),labels=str_obs_ahead_2020_selected[c(seq(1,length(5:ncol(cfr)),7),length(5:ncol(cfr)))],lwd=3,pos=0)
-	axis(side=2,at=seq(0,0.02,0.005),labels=TRUE,lwd=3,pos=0)
-
-	text(1,0.005,"Estimation based on \n1. Mapping modal IFR via thanatological age \n2. Population size and age structure, 2019\n3. Empirical deaths by age",col=grey(0.6),font=2,cex=0.8,pos=4)
-
-	legend(0,0.02,unlist(country_labels),col=pal,bty="n",lwd=2,lty=1)
-
-dev.off()
+# pdf(file="Output/top-10-lambda-mode-IFR-thanatAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
+# 
+# par(fig = c(0,1,0,1), las=1, mai=c(0.6,1.0,1.4,0.4))
+# 
+#  	plot(x=-100,y=-100,xlim=c(0,length(5:ncol(cfr))),ylim=c(0,0.02),xlab="",ylab="",cex.main=0.9,
+# 		main="Fraction of people probably infected with COVID-19\n China's modal IFR mapped via thanatological age\n January 22 - April 17, 2020",axes=FALSE)
+# 
+# 	for(pop in 1:length(country_labels)){
+# 		points(x=1:length(5:ncol(cfr)),y=output_mode_ifr_china_map_thanatAge_globalPattern_ageSpecificDeaths$total_lambda[pop,],col=pal[pop],lwd=3)
+# 		lines(x=1:length(5:ncol(cfr)),y=output_mode_ifr_china_map_thanatAge_globalPattern_ageSpecificDeaths$total_lambda[pop,],col=pal[pop],lwd=3)
+# 	}
+# 
+# 	axis(side=1,at=seq(1,length(5:ncol(cfr)),7),labels=FALSE,lwd=1,pos=0)
+# 	axis(side=1,at=c(seq(1,length(5:ncol(cfr)),7),length(5:ncol(cfr))),labels=str_obs_ahead_2020_selected[c(seq(1,length(5:ncol(cfr)),7),length(5:ncol(cfr)))],lwd=3,pos=0)
+# 	axis(side=2,at=seq(0,0.02,0.005),labels=TRUE,lwd=3,pos=0)
+# 
+# 	text(1,0.005,"Estimation based on \n1. Mapping modal IFR via thanatological age \n2. Population size and age structure, 2019\n3. Empirical deaths by age",col=grey(0.6),font=2,cex=0.8,pos=4)
+# 
+# 	legend(0,0.02,unlist(country_labels),col=pal,bty="n",lwd=2,lty=1)
+# 
+# dev.off()
 
 ##
 
-setwd(the.plot.path)
-
 require(wesanderson)
 pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
 
-dev.off()
-
-pdf(file="top-10-lambda-low95-IFR-thanatAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
-
-par(fig = c(0,1,0,1), las=1, mai=c(0.6,1.0,1.4,0.4))
-
- 	plot(x=-100,y=-100,xlim=c(0,length(5:ncol(cfr))),ylim=c(0,0.06),xlab="",ylab="",cex.main=0.9,
-		main="Fraction of people probably infected with COVID-19\n China's lower 95% IFR mapped via thanatological age\n January 22 - April 17, 2020",axes=FALSE)
-
-	for(pop in 1:length(country_labels)){
-		points(x=1:length(5:ncol(cfr)),y=output_low95_ifr_china_map_thanatAge_globalPattern_ageSpecificDeaths$total_lambda[pop,],col=pal[pop],lwd=3)
-		lines(x=1:length(5:ncol(cfr)),y=output_low95_ifr_china_map_thanatAge_globalPattern_ageSpecificDeaths$total_lambda[pop,],col=pal[pop],lwd=3)
-	}
-
-	axis(side=1,at=seq(1,length(5:ncol(cfr)),7),labels=FALSE,lwd=1,pos=0)
-	axis(side=1,at=c(seq(1,length(5:ncol(cfr)),7),length(5:ncol(cfr))),labels=str_obs_ahead_2020_selected[c(seq(1,length(5:ncol(cfr)),7),length(5:ncol(cfr)))],lwd=3,pos=0)
-	axis(side=2,at=seq(0,0.06,0.005),labels=TRUE,lwd=3,pos=0)
-
-	text(1,0.015,"Estimation based on \n1. Mapping lower 95% IFR via thanatological age \n2. Population size and age structure, 2019\n3. Empirical deaths by age",col=grey(0.6),font=2,cex=0.8,pos=4)
-
-	legend(0,0.06,unlist(country_labels),col=pal,bty="n",lwd=2,lty=1)
-
-dev.off()
+# pdf(file="Output/top-10-lambda-low95-IFR-thanatAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
+# 
+# par(fig = c(0,1,0,1), las=1, mai=c(0.6,1.0,1.4,0.4))
+# 
+#  	plot(x=-100,y=-100,xlim=c(0,length(5:ncol(cfr))),ylim=c(0,0.06),xlab="",ylab="",cex.main=0.9,
+# 		main="Fraction of people probably infected with COVID-19\n China's lower 95% IFR mapped via thanatological age\n January 22 - April 17, 2020",axes=FALSE)
+# 
+# 	for(pop in 1:length(country_labels)){
+# 		points(x=1:length(5:ncol(cfr)),y=output_low95_ifr_china_map_thanatAge_globalPattern_ageSpecificDeaths$total_lambda[pop,],col=pal[pop],lwd=3)
+# 		lines(x=1:length(5:ncol(cfr)),y=output_low95_ifr_china_map_thanatAge_globalPattern_ageSpecificDeaths$total_lambda[pop,],col=pal[pop],lwd=3)
+# 	}
+# 
+# 	axis(side=1,at=seq(1,length(5:ncol(cfr)),7),labels=FALSE,lwd=1,pos=0)
+# 	axis(side=1,at=c(seq(1,length(5:ncol(cfr)),7),length(5:ncol(cfr))),labels=str_obs_ahead_2020_selected[c(seq(1,length(5:ncol(cfr)),7),length(5:ncol(cfr)))],lwd=3,pos=0)
+# 	axis(side=2,at=seq(0,0.06,0.005),labels=TRUE,lwd=3,pos=0)
+# 
+# 	text(1,0.015,"Estimation based on \n1. Mapping lower 95% IFR via thanatological age \n2. Population size and age structure, 2019\n3. Empirical deaths by age",col=grey(0.6),font=2,cex=0.8,pos=4)
+# 
+# 	legend(0,0.06,unlist(country_labels),col=pal,bty="n",lwd=2,lty=1)
+# 
+# dev.off()
 
 ##
 
-setwd(the.plot.path)
-
-require(wesanderson)
-pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
-
-dev.off()
-
-pdf(file="top-10-lambda-up95-IFR-thanatAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
-
-par(fig = c(0,1,0,1), las=1, mai=c(0.6,1.0,1.4,0.4))
-
- 	plot(x=-100,y=-100,xlim=c(0,length(5:ncol(cfr))),ylim=c(0,0.009),xlab="",ylab="",cex.main=0.9,
-		main="Fraction of people probably infected with COVID-19\n China's upper 95% IFR mapped via thanatological age\n January 22 - April 17, 2020",axes=FALSE)
-
-	for(pop in 1:length(country_labels)){
-		points(x=1:length(5:ncol(cfr)),y=output_up95_ifr_china_map_thanatAge_globalPattern_ageSpecificDeaths$total_lambda[pop,],col=pal[pop],lwd=3)
-		lines(x=1:length(5:ncol(cfr)),y=output_up95_ifr_china_map_thanatAge_globalPattern_ageSpecificDeaths$total_lambda[pop,],col=pal[pop],lwd=3)
-	}
-
-	axis(side=1,at=seq(1,length(5:ncol(cfr)),7),labels=FALSE,lwd=1,pos=0)
-	axis(side=1,at=c(seq(1,length(5:ncol(cfr)),7),length(5:ncol(cfr))),labels=str_obs_ahead_2020_selected[c(seq(1,length(5:ncol(cfr)),7),length(5:ncol(cfr)))],lwd=3,pos=0)
-	axis(side=2,at=seq(0,0.009,0.001),labels=TRUE,lwd=3,pos=0)
-
-	text(1,0.0025,"Estimation based on \n1. Mapping upper 95% IFR via thanatological age \n2. Population size and age structure, 2019\n3. Empirical deaths by age",col=grey(0.6),font=2,cex=0.8,pos=4)
-
-	legend(0,0.009,unlist(country_labels),col=pal,bty="n",lwd=2,lty=1)
-
-dev.off()
+# require(wesanderson)
+# pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
+# 
+# pdf(file="Output/top-10-lambda-up95-IFR-thanatAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
+# 
+# par(fig = c(0,1,0,1), las=1, mai=c(0.6,1.0,1.4,0.4))
+# 
+#  	plot(x=-100,y=-100,xlim=c(0,length(5:ncol(cfr))),ylim=c(0,0.009),xlab="",ylab="",cex.main=0.9,
+# 		main="Fraction of people probably infected with COVID-19\n China's upper 95% IFR mapped via thanatological age\n January 22 - April 17, 2020",axes=FALSE)
+# 
+# 	for(pop in 1:length(country_labels)){
+# 		points(x=1:length(5:ncol(cfr)),y=output_up95_ifr_china_map_thanatAge_globalPattern_ageSpecificDeaths$total_lambda[pop,],col=pal[pop],lwd=3)
+# 		lines(x=1:length(5:ncol(cfr)),y=output_up95_ifr_china_map_thanatAge_globalPattern_ageSpecificDeaths$total_lambda[pop,],col=pal[pop],lwd=3)
+# 	}
+# 
+# 	axis(side=1,at=seq(1,length(5:ncol(cfr)),7),labels=FALSE,lwd=1,pos=0)
+# 	axis(side=1,at=c(seq(1,length(5:ncol(cfr)),7),length(5:ncol(cfr))),labels=str_obs_ahead_2020_selected[c(seq(1,length(5:ncol(cfr)),7),length(5:ncol(cfr)))],lwd=3,pos=0)
+# 	axis(side=2,at=seq(0,0.009,0.001),labels=TRUE,lwd=3,pos=0)
+# 
+# 	text(1,0.0025,"Estimation based on \n1. Mapping upper 95% IFR via thanatological age \n2. Population size and age structure, 2019\n3. Empirical deaths by age",col=grey(0.6),font=2,cex=0.8,pos=4)
+# 
+# 	legend(0,0.009,unlist(country_labels),col=pal,bty="n",lwd=2,lty=1)
+# 
+# dev.off()
 
 ##
 ### 6. Visualize total infections versus confirmed cases (based on data downloaded on April 18, 2020)
@@ -274,11 +264,8 @@ dev.off()
 ### all three (mode, high, low) together
 ##
 
-setwd(the.plot.path)
 
-dev.off()
-
-pdf(file="top-10-confirmed-infected-allThree-IFR-thanatAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
+pdf(file="Output/top-10-confirmed-infected-allThree-IFR-thanatAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
 
 par(fig = c(0,1,0,1), las=1, mai=c(0.6,2.4,1.2,0.4))
 
@@ -370,14 +357,10 @@ dev.off()
 ### modal IFR
 ##
 
-setwd(the.plot.path)
-
 require(wesanderson)
 pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
 
-dev.off()
-
-pdf(file="top-10-times-as-many-infections-modal-IFR-thanatAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
+pdf(file="Output/top-10-times-as-many-infections-modal-IFR-thanatAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
 
 par(fig = c(0,1,0,1), las=1, mai=c(0.6,0.8,1.4,0.4))
 
@@ -426,14 +409,10 @@ dev.off()
 ### low95 IFR
 ##
 
-setwd(the.plot.path)
-
 require(wesanderson)
 pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
 
-dev.off()
-
-pdf(file="top-10-times-as-many-infections-low95-IFR-thanatAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
+pdf(file="Output/top-10-times-as-many-infections-low95-IFR-thanatAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
 
 par(fig = c(0,1,0,1), las=1, mai=c(0.6,0.8,1.4,0.4))
 
@@ -481,14 +460,10 @@ dev.off()
 ### up95 IFR
 ##
 
-setwd(the.plot.path)
-
 require(wesanderson)
 pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
 
-dev.off()
-
-pdf(file="top-10-times-as-many-infections-up95-IFR-thanatAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
+pdf(file="Output/top-10-times-as-many-infections-up95-IFR-thanatAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
 
 par(fig = c(0,1,0,1), las=1, mai=c(0.6,0.8,1.4,0.4))
 
@@ -539,11 +514,7 @@ dev.off()
 ### wide format
 ##
 
-setwd(the.plot.path)
-
-dev.off()
-
-pdf(file="Figure-2.pdf", width=18, height=10, family="Times", pointsize=24, onefile=TRUE)
+pdf(file="Output/Figure-2.pdf", width=18, height=10, family="Times", pointsize=24, onefile=TRUE)
 
 par(fig = c(0,1,0,1), las=1, mai=c(0.6,0.0,1.2,0.2))
 
@@ -636,14 +607,10 @@ dev.off()
 ### wide format
 ##
 
-setwd(the.plot.path)
-
 require(wesanderson)
 pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
 
-dev.off()
-
-pdf(file="Figure-3.pdf", width=20, height=10, family="Times", pointsize=24, onefile=TRUE)
+pdf(file="Output/Figure-3.pdf", width=20, height=10, family="Times", pointsize=24, onefile=TRUE)
 
 	par(fig = c(0,1,0,1), las=1, mai=c(0.6,3.2,1.0,0.4))
 	plot(x=-100,y=-100,xlim=c(0,length(5:ncol(deaths))),ylim=c(0,0.08),xlab="",ylab="",cex.main=0.9,

@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+Data/WPP2019_INT_F03_3_POPULATION_BY_AGE_ANNUAL_FEMALE.xlsx
+Data/WPP2019_INT_F03_2_POPULATION_BY_AGE_ANNUAL_MALE.xlsx
+Data/time_series_covid19_confirmed_global.csv
+Data/time_series_covid19_deaths_global.csv
+Data/WPP2019_MORT_F17_1_ABRIDGED_LIFE_TABLE_BOTH_SEXES.xlsx
+Data/WPP2019_MORT_F17_3_ABRIDGED_LIFE_TABLE_FEMALE.xlsx 
+Data/WPP2019_MORT_F17_2_ABRIDGED_LIFE_TABLE_MALE.xlsx

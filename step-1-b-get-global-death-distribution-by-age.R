@@ -71,7 +71,7 @@ colSums(collect_pop)
 ##
 
 setwd(the.data.path)
-dump(list="collect_pop",file="collect_pop.R")
+dump(list="collect_pop",file="Data/collect_pop.R")
 
 ##
 ### 7. Population age structure of deaths, standardized by age, and normalized to sum to 1
@@ -117,21 +117,18 @@ global_age_dist_deaths <- rowMeans(sel)
 
 ## save global age distribution of deaths
 
-setwd(the.data.path)
-dump(list="global_age_dist_deaths",file="global_age_dist_deaths.R")
+dump(list="global_age_dist_deaths",file="Data/global_age_dist_deaths.R")
 
 ##
 ### 8. Plot age-standardized and normalized age profiles of collected deaths 
 ##
-
-setwd(the.plot.path)
 
 require(wesanderson)
 pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
 
 dev.off()
 
-pdf(file="global-age-distribution-deaths-20200417.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
+pdf(file="Output/global-age-distribution-deaths-20200417.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
 
 par(fig = c(0,1,0,1), las=1, mai=c(0.8,0.8,1.4,0.4))
 

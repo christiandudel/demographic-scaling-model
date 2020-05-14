@@ -15,8 +15,7 @@
 
 ## Get global age distribution of deaths from previous step 5
 
-setwd(the.data.path)
-source("global_age_dist_deaths.R")
+source("Data/global_age_dist_deaths.R")
 
 ##
 
@@ -83,14 +82,12 @@ output_up95_ifr_china_map_chronAge_globalPattern_ageSpecificDeaths <- get_output
 ### modal ifr
 ##
 
-setwd(the.plot.path)
-
 require(wesanderson)
 pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
 
 dev.off()
 
-pdf(file="top-10-lambda-modal-IFR-chronAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
+pdf(file="Output/top-10-lambda-modal-IFR-chronAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
 
 par(fig = c(0,1,0,1), las=1, mai=c(0.6,1.0,1.4,0.4))
 
@@ -116,14 +113,12 @@ dev.off()
 ### low95% ifr
 ##
 
-setwd(the.plot.path)
-
 require(wesanderson)
 pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
 
 dev.off()
 
-pdf(file="top-10-lambda-low95-IFR-chronAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
+pdf(file="Output/top-10-lambda-low95-IFR-chronAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
 
 par(fig = c(0,1,0,1), las=1, mai=c(0.6,1.0,1.4,0.4))
 
@@ -149,14 +144,12 @@ dev.off()
 ### up95% ifr
 ##
 
-setwd(the.plot.path)
-
 require(wesanderson)
 pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
 
 dev.off()
 
-pdf(file="top-10-lambda-up95-IFR-chronAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
+pdf(file="Output/top-10-lambda-up95-IFR-chronAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
 
 par(fig = c(0,1,0,1), las=1, mai=c(0.6,1.0,1.4,0.4))
 
@@ -186,11 +179,9 @@ dev.off()
 ### all three (mode, high, low) together
 ##
 
-setwd(the.plot.path)
-
 dev.off()
 
-pdf(file="top-10-confirmed-infected-allThree-IFR-chronAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
+pdf(file="Output/top-10-confirmed-infected-allThree-IFR-chronAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
 
 par(fig = c(0,1,0,1), las=1, mai=c(0.6,2.4,1.2,0.4))
 
@@ -282,14 +273,12 @@ dev.off()
 ### modal IFR
 ##
 
-setwd(the.plot.path)
-
 require(wesanderson)
 pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
 
 dev.off()
 
-pdf(file="top-10-times-as-many-infections-modal-IFR-chronAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
+pdf(file="Output/top-10-times-as-many-infections-modal-IFR-chronAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
 
 par(fig = c(0,1,0,1), las=1, mai=c(0.6,0.8,1.4,0.4))
 
@@ -337,14 +326,12 @@ dev.off()
 ### low95 IFR
 ##
 
-setwd(the.plot.path)
-
 require(wesanderson)
 pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
 
 dev.off()
 
-pdf(file="top-10-times-as-many-infections-low95-IFR-chronAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
+pdf(file="Output/top-10-times-as-many-infections-low95-IFR-chronAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
 
 par(fig = c(0,1,0,1), las=1, mai=c(0.6,0.8,1.4,0.4))
 
@@ -392,14 +379,12 @@ dev.off()
 ### up95 IFR
 ##
 
-setwd(the.plot.path)
-
 require(wesanderson)
 pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
 
 dev.off()
 
-pdf(file="top-10-times-as-many-infections-up95-IFR-chronAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
+pdf(file="Output/top-10-times-as-many-infections-up95-IFR-chronAge-ageSpecificDeaths-20200418.pdf", width=10, height=10, family="Times", pointsize=24, onefile=TRUE)
 
 par(fig = c(0,1,0,1), las=1, mai=c(0.6,0.8,1.4,0.4))
 
@@ -449,14 +434,12 @@ dev.off()
 ### wide format
 ##
 
-setwd(the.plot.path)
-
 require(wesanderson)
 pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
 
 dev.off()
 
-pdf(file="Figure-S3.pdf", width=18, height=10, family="Times", pointsize=24, onefile=TRUE)
+pdf(file="Output/Figure-S3.pdf", width=18, height=10, family="Times", pointsize=24, onefile=TRUE)
 
 par(fig = c(0,1,0,1), las=1, mai=c(0.6,0.0,1.2,0.2))
 
@@ -553,14 +536,12 @@ dev.off()
 ##
 
 
-setwd(the.plot.path)
-
 require(wesanderson)
 pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
 
 dev.off()
 
-pdf(file="Figure-S4.pdf", width=20, height=10, family="Times", pointsize=24, onefile=TRUE)
+pdf(file="Output/Figure-S4.pdf", width=20, height=10, family="Times", pointsize=24, onefile=TRUE)
 
 	par(fig = c(0,1,0,1), las=1, mai=c(0.6,3.2,1.0,0.4))
 	plot(x=-100,y=-100,xlim=c(0,length(5:ncol(deaths))),ylim=c(0,0.08),xlab="",ylab="",cex.main=0.9,

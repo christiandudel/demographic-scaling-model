@@ -2,14 +2,12 @@
 ### based on data downloaded as of May 14, 2020:
 ###
 
-setwd(the.plot.path)
-
 require(wesanderson)
 pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
 
 dev.off()
 
-pdf(file="Figure-1.pdf", width=10, height=10, family="Times", pointsize=20, onefile=TRUE)
+pdf(file="Output/Figure-1.pdf", width=10, height=10, family="Times", pointsize=20, onefile=TRUE)
 
 par(fig = c(0,1,0,1), las=1, mai=c(0.8,0.8,0.8,0.4))
 
@@ -55,14 +53,12 @@ dev.off()
 ### based on data downloaded as of April 18, 2020:
 ###
 
-setwd(the.plot.path)
-
 require(wesanderson)
 pal <- c(wes_palette("Darjeeling1"),wes_palette("Darjeeling2"))
 
 dev.off()
 
-pdf(file="top10-confirmed-deaths-20200418.pdf", width=10, height=10, family="Times", pointsize=20, onefile=TRUE)
+pdf(file="Output/top10-confirmed-deaths-20200418.pdf", width=10, height=10, family="Times", pointsize=20, onefile=TRUE)
 
 par(fig = c(0,1,0,1), las=1, mai=c(0.8,0.8,0.8,0.4))
 

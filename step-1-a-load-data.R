@@ -25,25 +25,32 @@ require(openxlsx)
 ### 1.1 UNWPP2019: Population counts in 2019
 ##
 
-wom <- read.xlsx(file.path(the.data.path,paste("WPP2019_INT_F03_3_POPULATION_BY_AGE_ANNUAL_FEMALE.xlsx",sep="")),sheet = 1,startRow = 17)
+wom <- read.xlsx("Data/WPP2019_INT_F03_3_POPULATION_BY_AGE_ANNUAL_FEMALE.xlsx",sheet = 1,startRow = 17)
 wom_select <- wom[which(wom[,"Reference.date.(as.of.1.July)"]=="2019"),c(3,8:109)] 
 wom_select_2010 <- wom[which(wom[,"Reference.date.(as.of.1.July)"]=="2010"),c(3,8:109)] 
 
-men <- read.xlsx(file.path(the.data.path,paste("WPP2019_INT_F03_2_POPULATION_BY_AGE_ANNUAL_MALE.xlsx",sep="")),sheet = 1,startRow = 17)
+men <- read.xlsx("Data/WPP2019_INT_F03_2_POPULATION_BY_AGE_ANNUAL_MALE.xlsx",sheet = 1,startRow = 17)
 men_select <- men[which(men[,"Reference.date.(as.of.1.July)"]=="2019"),c(3,8:109)] ## men[,c(3,8:109)]
 men_select_2010 <- men[which(men[,"Reference.date.(as.of.1.July)"]=="2010"),c(3,8:109)] ## men[,c(3,8:109)]
 
 ##
 ### 1.2 JHU CCSE: Confirmed cases, deaths, and recovered
 ##
-	confirmed <- read.csv("time_series_covid19_confirmed_global.csv",header=TRUE, stringsAsFactors = FALSE)
-	deaths <- read.csv("time_series_covid19_deaths_global.csv",header=TRUE, stringsAsFactors = FALSE)
+	confirmed <- read.csv("Data/time_series_covid19_confirmed_global.csv",header=TRUE, stringsAsFactors = FALSE)
+	deaths <- read.csv("Data/time_series_covid19_deaths_global.csv",header=TRUE, stringsAsFactors = FALSE)
 
 ##
-### 1.3 Verity 2020: Adjusted case fatality rates by age in China (w 95% credible interval) 
+### 1.3a Verity 2020: IFRs by age in China (w 95% credible interval) 
 ## 
 
-ifr_by_age_china_verity <- read.table("infection-fatality-rates-by-age-china-Verity.txt",header=FALSE, stringsAsFactors = FALSE)
+ifr_by_age_china_verity <- read.table("Data/infection-fatality-rates-by-age-china-Verity.txt",header=FALSE, stringsAsFactors = FALSE)
+
+##
+### 1.3b Salje 2020: IFRs by age in France (w 95% interval) 
+## 
+
+ifr_by_age_france_salje <- read.table("Data/infection-fatality-rates-by-age-france-Salje.txt",header=FALSE, stringsAsFactors = FALSE)
+ifr_by_age_france_salje <- ifr_by_age_france_salje/100
 
 ##
 ### 1.4 Population counts by 10-year age groups
@@ -62,12 +69,12 @@ for(country in 1:dim(wom_select)[1]){
 	current_wom_select <- wom_select[country,]
 	current_men_select <- men_select[country,]
 
-	for(age in 1:nrow(cfr_by_age_china)){
+	for(age in 1:nrow(ifr_by_age_china_verity)){
 		current_age <- seq(0,80,10)[age] 
 
 		wom_select_10y[country,age] <- sum( as.numeric( current_wom_select[as.character((current_age):(current_age+9))] ) ) 
 		men_select_10y[country,age] <- sum( as.numeric( current_men_select[as.character((current_age):(current_age+9))] ) )
-		
+
 		if(current_age==80){
 			wom_select_10y[country,age] <- sum( as.numeric( current_wom_select[as.character((current_age):(current_age+20))] ) ) 
 			men_select_10y[country,age] <- sum( as.numeric( current_men_select[as.character((current_age):(current_age+20))] ) )
@@ -81,9 +88,9 @@ for(country in 1:dim(wom_select)[1]){
 
 ### Load abridged life tables, 1950-55 -- 2015-20 
 
-lt_1950_2020 <- read.xlsx("WPP2019_MORT_F17_1_ABRIDGED_LIFE_TABLE_BOTH_SEXES.xlsx",sheet = 1,startRow = 17)
-lt_wom_1950_2020 <- read.xlsx("WPP2019_MORT_F17_3_ABRIDGED_LIFE_TABLE_FEMALE.xlsx",sheet = 1,startRow = 17)
-lt_men_1950_2020 <- read.xlsx("WPP2019_MORT_F17_2_ABRIDGED_LIFE_TABLE_MALE.xlsx",sheet = 1,startRow = 17)
+lt_1950_2020 <- read.xlsx("Data/WPP2019_MORT_F17_1_ABRIDGED_LIFE_TABLE_BOTH_SEXES.xlsx",sheet = 1,startRow = 17)
+lt_wom_1950_2020 <- read.xlsx("Data/WPP2019_MORT_F17_3_ABRIDGED_LIFE_TABLE_FEMALE.xlsx",sheet = 1,startRow = 17)
+lt_men_1950_2020 <- read.xlsx("Data/WPP2019_MORT_F17_2_ABRIDGED_LIFE_TABLE_MALE.xlsx",sheet = 1,startRow = 17)
 
 ##
 ### 1.9 Day format

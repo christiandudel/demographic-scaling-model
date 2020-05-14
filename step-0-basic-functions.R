@@ -34,78 +34,78 @@ get_ungrouped_ex_2015_2020 <- function(country_name, lt_1950_2020){
 ### 3. basic function to map ungrouped ifr based on thanatological age and ungrouped ex 
 ##
 
-map_fr_betw_ref_and_coi_thanatAge <- function(deaths,lt_1950_2020,ungrouped_cfr_by_single_age_china_sp){
-
-	## step 1: select ten countries wrt most deaths from COVID-19 on latest day
-
-	country_labels <- c(0)
-	country_row_number <- c(NA)
-	for(pop in 1:10){
-		current_pop <- deaths[order(deaths[,ncol(deaths)],decreasing=TRUE),][pop,1:2]
-		country_row_number[pop] <- rownames(current_pop)
-		if(!current_pop["Province.State"]==''){
-			country_labels[pop] <- current_pop["Province.State"]
-		}
-		if(current_pop["Province.State"]==''){			
-			country_labels[pop] <- current_pop["Country.Region"]
-		}
-	} 
-	country_labels <- unlist(country_labels)
-	countries_selected_JHU <- unlist(country_labels)
-
-	## step 2: map cfr based on thanatological age
-
-	cfr_coi_mapped_rc_china_based_on_thanat_x <- matrix(NA,nr=10,nc=length(ungrouped_cfr_by_single_age_china_sp))
-	rownames(cfr_coi_mapped_rc_china_based_on_thanat_x) <- unlist(country_labels)
-
-	for(pop in 1:10){
-
-		current_pop <- unlist(country_labels)[pop]
-
-		current_pop_insert <- current_pop
-		if(current_pop=="US"){
-			current_pop_insert <- "United States of America" 	
-		}
-		if(current_pop=="Hubei"){
-			current_pop_insert <- "China"
-		}
-		if(current_pop=="Iran"){
-			current_pop_insert <- "Iran (Islamic Republic of)"
-	 	}
-
-		for(chronAge in 1:90){
-			current_ref_y <- get_ungrouped_ex_2015_2020(country_name="China", lt_1950_2020)$y
-			current_ref_x <- get_ungrouped_ex_2015_2020(country_name="China", lt_1950_2020)$x
-
-			current_coi_y <- get_ungrouped_ex_2015_2020(country_name=current_pop_insert, lt_1950_2020)$y
-			current_coi_x <- get_ungrouped_ex_2015_2020(country_name=current_pop_insert, lt_1950_2020)$x
-		 	
-			current_y_ref_of_chronAge <- current_ref_y[which(current_ref_x==(chronAge-1))]
-			equal_y <- which(round(current_coi_y,3)==round(current_y_ref_of_chronAge,3))[1]
-			
-			if(is.na(equal_y)){
-				n <- 0.001
-				while(is.na(equal_y)){
-					equal_y <- which(round(current_coi_y,3)==(round(current_y_ref_of_chronAge,3)-n))[1]
-					n <- n+0.001 
-				} ## while	
-			} ## if
-
-			equivalent_x_coi <- current_coi_x[equal_y]
-		
-			if((round(equivalent_x_coi,0)+1)>length(ungrouped_cfr_by_single_age_china_sp)){
-				equivalent_x_coi <- 89
-			}
-
-			cfr_coi_mapped_rc_china_based_on_thanat_x[pop,equivalent_x_coi] <- ungrouped_cfr_by_single_age_china_sp[chronAge]
-
-		} ## for chronAge
-	} ## for pop
-
-	## step 3: adjust for na values that cannot be mapped
-
-	return(cfr_coi_mapped_rc_china_based_on_thanat_x)
-
+map_fr_betw_ref_and_coi_thanatAge <- function(deaths,lt_1950_2020,ungrouped_cfr_by_single_age_sp,reference){
+  
+  ## step 1: select ten countries wrt most deaths from COVID-19 on latest day
+  
+  country_labels <- c(0)
+  country_row_number <- c(NA)
+  for(pop in 1:10){
+    current_pop <- deaths[order(deaths[,ncol(deaths)],decreasing=TRUE),][pop,1:2]
+    country_row_number[pop] <- rownames(current_pop)
+    if(!current_pop["Province.State"]==''){
+      country_labels[pop] <- current_pop["Province.State"]
+    }
+    if(current_pop["Province.State"]==''){			
+      country_labels[pop] <- current_pop["Country.Region"]
+    }
+  } 
+  country_labels <- unlist(country_labels)
+  countries_selected_JHU <- unlist(country_labels)
+  
+  ## step 2: map cfr based on thanatological age
+  
+  cfr_coi_mapped_rc_china_based_on_thanat_x <- matrix(NA,nr=10,nc=length(ungrouped_cfr_by_single_age_sp))
+  rownames(cfr_coi_mapped_rc_china_based_on_thanat_x) <- unlist(country_labels)
+  
+  for(pop in 1:10){
+    
+    current_pop <- unlist(country_labels)[pop]
+    
+    current_pop_insert <- current_pop
+    if(current_pop=="US"){
+      current_pop_insert <- "United States of America" 	
+    }
+    if(current_pop=="Hubei"){
+      current_pop_insert <- "China"
+    }
+    if(current_pop=="Iran"){
+      current_pop_insert <- "Iran (Islamic Republic of)"
+    }
+    
+    for(chronAge in 1:90){
+      current_ref_y <- get_ungrouped_ex_2015_2020(country_name=reference, lt_1950_2020)$y
+      current_ref_x <- get_ungrouped_ex_2015_2020(country_name=reference, lt_1950_2020)$x
+      
+      current_coi_y <- get_ungrouped_ex_2015_2020(country_name=current_pop_insert, lt_1950_2020)$y
+      current_coi_x <- get_ungrouped_ex_2015_2020(country_name=current_pop_insert, lt_1950_2020)$x
+      
+      current_y_ref_of_chronAge <- current_ref_y[which(current_ref_x==(chronAge-1))]
+      equal_y <- which(round(current_coi_y,3)==round(current_y_ref_of_chronAge,3))[1]
+      
+      if(is.na(equal_y)){
+        n <- 0.001
+        while(is.na(equal_y)){
+          equal_y <- which(round(current_coi_y,3)==(round(current_y_ref_of_chronAge,3)-n))[1]
+          n <- n+0.001 
+        } ## while	
+      } ## if
+      
+      equivalent_x_coi <- current_coi_x[equal_y]
+      
+      if((round(equivalent_x_coi,0)+1)>length(ungrouped_cfr_by_single_age_sp)){
+        equivalent_x_coi <- 89
+      }
+      
+      cfr_coi_mapped_rc_china_based_on_thanat_x[pop,equivalent_x_coi] <- ungrouped_cfr_by_single_age_sp[chronAge]
+      
+    } ## for chronAge
+  } ## for pop
+  
+  ## step 3: adjust for na values that cannot be mapped
+  
+  return(cfr_coi_mapped_rc_china_based_on_thanat_x)
+  
 } ## function
 
 ##
